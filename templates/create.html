@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+      Create Courses
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form style="width: 26rem;">
+                <!-- Name input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="form4Example1">Title</label>
+                  <input type="text" id="form4Example1" class="form-control" />
+                </div>
+              
+                <!-- Message input -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="form4Example3">Description</label>
+                  <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+                </div>
+              
+                <!-- Checkbox -->
+                <div data-mdb-input-init class="form-outline mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          Categoria1
+                        </label>
+                    </div>
+                </div>
+                <!-- Submit button -->
+                <button data-mdb-ripple-init type="button" class="btn btn-primary btn-block mb-4">Send</button>
+              </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
