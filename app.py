@@ -41,6 +41,13 @@ def courses_details():
         pass
     else:
         return render_template("courses_details.html")
+    
+@app.route("/categories", methods=["POST", "GET"])
+def categories():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("categories.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
