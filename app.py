@@ -103,7 +103,35 @@ def register():
 @app.route("/create", methods=["POST", "GET"])
 def create():
     if request.method == "POST":
-        pass
+        titulo = request.form.get("titulo")
+        contenido = request.form.get("contenido")
+        categorias = request.form.getlist("categoria")
+
+        if not titulo or not contenido or not categorias:
+            flash("Campos vacios", "danger")
+            return redirect("/create")
+        
+        try:
+            nuevo_curso = Curso(title=titulo, description=contenido)
+            
+            for cat in categorias:
+                print(f"dato: {cat}")
+                categoria_id = Categoria.query.get(int(cat))
+                nuevo_curso.categorias.append(categoria_id)
+                print(f"Registro : {nuevo_curso.categorias}")
+            
+            db.session.add(nuevo_curso)
+            db.session.commit() # confirmar el registro
+        except Exception as e:
+            print(f"El error fue: {e}")
+            db.session.rollback()
+            flash("Hubo un error", "danger")
+            return redirect("/create")
+
+        #print(f"T: {titulo} Cont: {contenido} Cat: {categorias}")
+        
+        flash("Curso creado", "success")
+        return redirect("/")
     else:
         return render_template("create.html")
     
@@ -127,6 +155,14 @@ def categories():
         pass
     else:
         return render_template("categories.html")
+    
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("Has cerrado la sesion", 'success')
+    return redirect("/")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
