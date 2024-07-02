@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Validacion de tarjeta
+{% endblock %}
+
+{% block content %}
+
+   <h1> VALIDACION DE TARJETA</h1>
+   <form id="cardForm" method="post">
+        <label for="">digite su numero de tarjeta</label>
+        <input type="text" required id="card_number" name="card_number">
+        <button type="submit" class="btn btn-outline-primary">ACEPTAR</button>
+    </form>
+    <div id="results">
+        
+    </div>
+   
+{% endblock %}
+
+{% block script %}
+
+    <script type="module" src="{{ url_for('static', filename='tarjetas.js') }}"></script>
+
+{% endblock %}
