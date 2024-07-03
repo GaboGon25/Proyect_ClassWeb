@@ -1,10 +1,118 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-    Index, inicio
+  Courses
 {% endblock %}
 
 {% block content %}
+
+  {% if current_user.rol == 'estudiante' %}
+    {% if cursos|length == 0 %}
+      <h2 style="color: red">No hay coincidencias</h2>
+    {% else %}
+      <h1>Cursos Disponibles</h1>
+      {% for curso in cursos %}
+        <div class="container py-5">
+          <div class="row justify-content-center mb-3">
+            <div class="col-md-12 col-xl-10">
+              <div class="card shadow-0 border rounded-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                      <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                        <div class="hover-overlay">
+                          <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                      <h5 class="card-title">{{ curso.title }}</h5>
+                      <div class="d-flex flex-row">
+                        <div class="text-danger mb-1 me-2">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                      </div>
+                      <p class="card-text">{{ curso.description }}</p>
+                      {% for categoria in curso.categorias %}
+                        <span class="badge bg-primary">{{ categoria.name }}</span>
+                      {% endfor %}
+
+                      <div class="d-flex flex-row align-items-center mb-1">
+                        <h4 class="mb-1 me-1">{{ curso.price }}</h4>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-column mt-4">
+                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm" type="button">Detalles</button>
+                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-sm mt-2" type="button">Agregar al carrito</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% else %}
+    {% if cursos|length == 0 %}
+      <h2 style="color: red">No hay coincidencias</h2>
+    {% else %}
+      <h1>Mis Cursos</h1>
+      {% for curso in cursos %}
+        <div class="container py-5">
+          <div class="row justify-content-center mb-3">
+            <div class="col-md-12 col-xl-10">
+              <div class="card shadow-0 border rounded-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                      <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                        <div class="hover-overlay">
+                          <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                      <h5 class="card-title">{{ curso.title }}</h5>
+                      <div class="d-flex flex-row">
+                        <div class="text-danger mb-1 me-2">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                      </div>
+                      <p class="card-text">{{ curso.description }}</p>
+                      {% for categoria in curso.categorias %}
+                        <span class="badge bg-primary">{{ categoria.name }}</span>
+                      {% endfor %}
+
+                      <div class="d-flex flex-row align-items-center mb-1">
+                        <h4 class="mb-1 me-1">{{ curso.price }}</h4>
+                      </div>
+                    </div>
+
+                    <div class="d-flex flex-column mt-4">
+                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm" type="button">Detalles</button>
+                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-sm mt-2" type="button">Editar Curso</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endif %}
+
    <h1> Hola Mundo</h1>
    
+
 {% endblock %}

@@ -15,7 +15,7 @@
         <div class="card" style="border-radius: 15px;">
           <div class="card-body">
             <form method="POST" action="/create">
-
+            
             <div class="row align-items-center pt-4 pb-3">
               <div class="col-md-3 ps-5">
 
@@ -24,7 +24,7 @@
               </div>
               <div class="col-md-9 pe-5">
 
-                <input type="text" class="form-control form-control-lg" />
+                <input type="text" class="form-control form-control-lg" name = "titulo" />
 
               </div>
             </div>
@@ -41,7 +41,7 @@
               </div>
               <div class="col-md-9 pe-5">
 
-                <textarea class="form-control" rows="3" placeholder="Descripcion"></textarea>
+                <textarea class="form-control" rows="3" placeholder="Descripcion" name="contenido"></textarea>
 
               </div>
             </div>
@@ -52,25 +52,39 @@
               <div class="col-md-3 ps-5">
 
                 <h6 class="mb-0">Categorias del curso</h6>
-
               </div>
               <div class="col-md-9 pe-5">
-
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                 Categoria1
-                </label>
-
+                 {% for cat in categorias %}
+                 <div class="form-check">
+                  <input name="categoria" class="form-check-input" type="checkbox" value="{{ cat.id }}" id="flexCheckDefault">
+                  <label class="form-check-label" for="flexCheckDefault">
+                      {{ cat.name }}
+                  </label>
+              </div>
+              <br>
+                 {% endfor %}
+                <br><br>
+                <a href="/categories">Agregar una categoria</a>
               </div>
             </div>
 
             <hr class="mx-n3">
 
+            <div class="row align-items-center py-3">
+              <div class="col-md-3 ps-5">
+
+                <h6 class="mb-0">Agregar Precio</h6>
+
+              </div>
+              <div class="col-md-9 pe-5">
+                <input type="text" class="form-control form-control-lg" name = "price" />
+              </div>
+            </div>
+
             <div class="px-5 py-4">
               <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Subir Curso</button>
             </div>
 
-          </div>
         </div>
 
       </div>
