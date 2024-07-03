@@ -68,6 +68,18 @@ class Categoria(db.Model):
             'name': self.name,
             'description': self.description
         }
-
+    
     def _repr_(self):
         return f"Categoria: {self.name}"
+    
+class Reseña(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
+    curso_id = db.Column(db.Integer, db.ForeignKey('curso.id'), nullable=False)
+    user = db.relationship('Usuario', backref='review')
+    curso = db.relationship('Curso', backref='review')
+    
+    def _repr_(self):
+        return f"Review: {self.rating} - {self.comment}"
