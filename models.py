@@ -39,7 +39,7 @@ class Curso(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text)
-    price = db.Column(db.Double, default=0.0)
+    price = db.Column(db.Float, default=0.0)
     id_profesor = db.Column(db.Integer, db.ForeignKey('usuario.id'), name='fk_curso_usuario')
     categorias = db.relationship('Categoria', secondary=categorias_curso,
                                  backref=db.backref('cursos', lazy='dynamic'))

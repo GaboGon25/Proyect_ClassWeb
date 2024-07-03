@@ -75,7 +75,7 @@ def login():
 def search():
     query = request.args.get("q")
     cursos_lista = Curso.query.filter(Curso.title.ilike(f'%{query}%')).all()
-    print(cursos_lista)
+    print(cursos_lista)  # Verifica en la consola de Flask qué cursos se están devolviendo
     return render_template("courses.html", cursos=cursos_lista)
 
 @app.route("/register", methods=["POST","GET"])
@@ -136,7 +136,8 @@ def categoria():
         flash("Categoria creada", "success")
         return redirect("/create")
     else:
-        return render_template("categories.html")
+        return render_template("create.html")
+    
 @app.route("/create", methods=["POST", "GET"])
 def create():
     if request.method == "POST":
