@@ -137,7 +137,7 @@ def categoria():
         flash("Categoria creada", "success")
         return redirect("/categories")
     else:
-        return render_template("create.html")
+        return render_template("categories.html")
     
 @app.route("/create", methods=["POST", "GET"])
 def create():
