@@ -135,7 +135,7 @@ def categoria():
             return redirect("/categories")
         
         flash("Categoria creada", "success")
-        return redirect("/create")
+        return redirect("/categories")
     else:
         return render_template("create.html")
     
@@ -194,11 +194,8 @@ def courses_details():
         return render_template("courses_details.html")
     
 @app.route("/categories", methods=["POST", "GET"])
-def categories():
-    if request.method == "POST":
-        pass
-    else:
-        return render_template("categories.html")
+def categories():    
+    return render_template("categories.html")
     
 @app.route("/logout")
 @login_required
