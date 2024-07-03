@@ -1,62 +1,20 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-      Creando Categorias
+    Categorias
 {% endblock %}
 
 {% block content %}
-<section class="vh-100" style="background-color: #e23027b4;">
-  <div class="container h-100"> 
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-xl-9">
-
-        <h1 class="text-white mb-4">Crear una Categoria</h1>
-
-        <div class="card" style="border-radius: 15px;">
-          <div class="card-body">
-
-            <div class="row align-items-center pt-4 pb-3">
-              <div class="col-md-3 ps-5">
-
-                <h6 class="mb-0">Nombre de la categoria</h6>
-
-              </div>
-              <div class="col-md-9 pe-5">
-
-                <input type="text" class="form-control form-control-lg" />
-
-              </div>
-            </div>
-
-            
-
-            <hr class="mx-n3">
-
-            <div class="row align-items-center py-3">
-              <div class="col-md-3 ps-5">
-
-                <h6 class="mb-0">Descripcion</h6>
-
-              </div>
-              <div class="col-md-9 pe-5">
-
-                <textarea class="form-control" rows="3" placeholder="Descripcion"></textarea>
-
-              </div>
-            </div>
-
-            
-            <hr class="mx-n3">
-
-            <div class="px-5 py-4">
-              <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Subir</button>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
+<form method="post" action="/categories">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Nombre categoria</label>
+      <input name="nombre_categoria" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
     </div>
-  </div>
-</section>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Descripcion</label>
+      <input name="descripcion" type="text" class="form-control" id="exampleInputPassword1">
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
 {% endblock %}

@@ -29,8 +29,15 @@ def load_user(user_id):
 
 #INDEX
 @app.route("/")
+@login_required
 def index():
-    return render_template("index.html")
+    if current_user.rol == 'tutor':
+        cursos = Curso.query.filter_by(id_profesor=current_user.id).all()
+    else:
+        cursos = Curso.query.all()
+    cursos_data = [curso.serialize() for curso in cursos]
+    return render_template("index.html", cursos=cursos_data)
+
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -64,6 +71,13 @@ def login():
     else:
         return render_template("login.html")
     
+@app.route("/search")
+def search():
+    query = request.args.get("q")
+    cursos_lista = Curso.query.filter(Curso.title.ilike(f'%{query}%')).all()
+    print(cursos_lista)
+    return render_template("courses.html", cursos=cursos_lista)
+
 @app.route("/register", methods=["POST","GET"])
 def register():
     if request.method == "POST":
@@ -99,20 +113,46 @@ def register():
         return redirect("/login")
     else:
         return render_template("register.html")
-    
+
+@app.route("/categories", methods=['POST', 'GET'])
+def categoria():
+    if request.method == "POST":
+        nombre = request.form.get("nombre_categoria")
+        descripcion = request.form.get("descripcion")
+        
+        if not nombre or not descripcion:
+            flash("Error, campos vacios")
+            return redirect("/categories")
+        
+        try:
+            nueva_categoria = Categoria(name=nombre, description = descripcion)
+            db.session.add(nueva_categoria)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            flash("La categoria existe", "danger")
+            return redirect("/categories")
+        
+        flash("Categoria creada", "success")
+        return redirect("/create")
+    else:
+        return render_template("categories.html")
 @app.route("/create", methods=["POST", "GET"])
 def create():
     if request.method == "POST":
         titulo = request.form.get("titulo")
         contenido = request.form.get("contenido")
         categorias = request.form.getlist("categoria")
-
-        if not titulo or not contenido or not categorias:
-            flash("Campos vacios", "danger")
-            return redirect("/create")
+        precio = request.form.get("price")
         
         try:
-            nuevo_curso = Curso(title=titulo, description=contenido)
+        
+            if not titulo or not contenido or not categorias or not precio:
+                flash("Campos vacios", "danger")
+                return redirect("/create")
+         
+            float(precio)
+            nuevo_curso = Curso(title=titulo, description=contenido, price=precio, id_profesor=current_user.id)
             
             for cat in categorias:
                 print(f"dato: {cat}")
@@ -125,7 +165,7 @@ def create():
         except Exception as e:
             print(f"El error fue: {e}")
             db.session.rollback()
-            flash("Hubo un error", "danger")
+            flash("Revise si ingreso mal un dato", "danger")
             return redirect("/create")
 
         #print(f"T: {titulo} Cont: {contenido} Cat: {categorias}")
@@ -133,7 +173,9 @@ def create():
         flash("Curso creado", "success")
         return redirect("/")
     else:
-        return render_template("create.html")
+        categorias_list = Categoria.query.all()
+        print(f"{categorias_list}")
+        return render_template("create.html", categorias=categorias_list)
     
 @app.route("/courses", methods=["POST", "GET"])
 def courses():
