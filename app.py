@@ -231,6 +231,13 @@ def validate_card():
         print(f"INFO: {result}")
         return jsonify(result)
     return render_template('validate_card.html')
+
+@app.route("/cart", methods=["POST", "GET"])
+def cart():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("cart.html")
     
 
 
