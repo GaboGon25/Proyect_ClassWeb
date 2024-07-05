@@ -45,4 +45,19 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('results').innerHTML = `<p> ${error.message} </p>`;
         }
     });
+    // Código para el formato de Expiration MM/AA
+    document.getElementById('typeExp').addEventListener('input', function (e) {
+        let input = e.target.value.replace(/\D/g, '').substring(0, 4); // Obtener solo los primeros 4 dígitos
+        let month = input.substring(0, 2);
+        let year = input.substring(2, 4);
+
+        if (input.length > 2) {
+            e.target.value = `${month}/${year}`;
+        } else if (input.length === 0) {
+            e.target.value = '';
+        } else {
+            e.target.value = `${month}`;
+        }
+    });
 });
+
