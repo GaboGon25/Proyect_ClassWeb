@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block title %}
-     Carrito
+    Carrito
 {% endblock %}
 
 {% block style %}
@@ -32,7 +32,6 @@
                     <h6 style="color: #9e9e9e;">Categoria: Matematicas</h6>
                     <div class="d-flex align-items-center">
                       <p class="fw-bold mb-0 me-5 pe-3">799$</p>
-                      
                     </div>
                   </div>
                 </div>
@@ -85,7 +84,6 @@
 
                 <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
 
-                
                 <div class="d-flex justify-content-between p-2 mb-2 bg-primary">
                   <h5 class="fw-bold mb-0">Total:</h5>
                   <h5 class="fw-bold mb-0">2261$</h5>
@@ -96,46 +94,37 @@
 
                 <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Validacion de Tarjeta</h3>
 
-                <form class="mb-5">
+                <form class="mb-5" id="cardForm" method="post">
 
                   <div data-mdb-input-init class="form-outline mb-5">
-                    <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
-                      value="1234 5678 9012 3457" minlength="19" maxlength="19" />
-                    <label class="form-label" for="typeText">Card Number</label>
-                  </div>
-
-                  <div data-mdb-input-init class="form-outline mb-5">
-                    <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
-                      value="John Smith" />
-                    <label class="form-label" for="typeName">Name on card</label>
+                    <input type="text" id="card_number" name="card_number" class="form-control form-control-lg" required>
+                    <label class="form-label" for="card_number">Card Number</label>
                   </div>
 
                   <div class="row">
                     <div class="col-md-6 mb-5">
                       <div data-mdb-input-init class="form-outline">
-                        <input type="text" id="typeExp" class="form-control form-control-lg" value="01/22"
-                          size="7" id="exp" minlength="7" maxlength="7" />
+                        <input type="text" id="typeExp" name="expiration" class="form-control form-control-lg" required>
                         <label class="form-label" for="typeExp">Expiration</label>
                       </div>
                     </div>
                     <div class="col-md-6 mb-5">
                       <div data-mdb-input-init class="form-outline">
-                        <input type="password" id="typeText" class="form-control form-control-lg"
-                          value="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                        <label class="form-label" for="typeText">Cvv</label>
+                        <input type="password" id="typeCvv" name="cvv" class="form-control form-control-lg" required>
+                        <label class="form-label" for="typeCvv">CVV</label>
                       </div>
                     </div>
                   </div>
 
-                  
-
-                  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block btn-lg">Comprar</button>
+                  <button type="submit" class="btn btn-primary btn-block btn-lg">Comprar</button>
 
                   <h5 class="fw-bold mb-5" style="position: absolute; bottom: 0;">
                     <a href="#!"><i class="fas fa-angle-left me-2"></i>Regresar a Comprar</a>
                   </h5>
 
                 </form>
+
+                <div id="results"></div>
 
               </div>
             </div>
@@ -148,3 +137,6 @@
 </section>
 {% endblock %}
 
+{% block script %}
+    <script type="module" src="{{ url_for('static', filename='tarjetas.js') }}"></script>
+{% endblock %}
