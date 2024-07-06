@@ -1,6 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
-from flask import Flask
-
 
 db = SQLAlchemy()
 
@@ -11,10 +9,10 @@ class Usuario(db.Model):
     email_user = db.Column(db.String(60), unique=True, nullable=False)
     rol = db.Column(db.String(20), nullable=False)
 
-    def _repr_(self):
+    def __repr__(self):
         return f"User: {self.username} Email: {self.email_user}"
     
-    # Metodos por flask_login
+    # Métodos por flask_login
     @property
     def is_authenticated(self):
         return True
@@ -40,11 +38,13 @@ class Curso(db.Model):
     title = db.Column(db.String(80), nullable=False)
     description = db.Column(db.Text)
     price = db.Column(db.Float, default=0.0)
+    THours = db.Column(db.Float, default=0.0)
     id_profesor = db.Column(db.Integer, db.ForeignKey('usuario.id'), name='fk_curso_usuario')
     categorias = db.relationship('Categoria', secondary=categorias_curso,
                                  backref=db.backref('cursos', lazy='dynamic'))
-    
-    # con esta funcion me permitira mostrar los datos en un json
+    review = db.relationship('Reseña', backref='curso', lazy=True)
+    clases = db.relationship('Clase', backref='curso_relacion', lazy=True, cascade="all, delete-orphan")
+    # con esta función me permitirá mostrar los datos en un json
     def serialize(self):
         return {
             'id': self.id,
@@ -53,15 +53,19 @@ class Curso(db.Model):
             'categorias': [categoria.serialize() for categoria in self.categorias]
         }
 
-    def _repr_(self):
+    def __repr__(self):
         return f"Curso: {self.title}"
+
+    def actualizar_horas(self):
+        self.THours = sum(clase.horas for clase in self.clases)
+        db.session.commit()
 
 class Categoria(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, unique=True, nullable=False)
     description = db.Column(db.Text, nullable=False)
 
-    # con esta funcion nos permitira mostrar los datos en formato json
+    # con esta función nos permitirá mostrar los datos en formato json
     def serialize(self):
         return {
             'id': self.id,
@@ -69,7 +73,7 @@ class Categoria(db.Model):
             'description': self.description
         }
 
-    def _repr_(self):
+    def __repr__(self):
         return f"Categoria: {self.name}"
 
 class Reseña(db.Model):
@@ -83,3 +87,14 @@ class Reseña(db.Model):
 
     def __repr__(self):
         return f"Review: {self.rating} - {self.comment}"
+    
+class Clase(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    titulo = db.Column(db.String(80), nullable=False)
+    descripcion = db.Column(db.String(80))
+    horas = db.Column(db.Float, nullable=False)
+    curso_id = db.Column(db.Integer, db.ForeignKey('curso.id'), nullable=False)
+    curso = db.relationship('Curso', backref='clases_relacion')
+
+    def __repr__(self):
+        return f"Clase: {self.titulo} - {self.horas} horas"

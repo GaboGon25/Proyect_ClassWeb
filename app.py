@@ -236,6 +236,13 @@ def cart():
     else:
         return render_template("cart.html")
     
+    
+@app.route("/configuration", methods=['POST', 'GET'])
+def configuration():
+    if request.method == "POST":
+        pass
+    else: 
+        return render_template("configuration.html")
 
 
 if __name__ == '__main__':
