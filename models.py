@@ -42,7 +42,6 @@ class Curso(db.Model):
     id_profesor = db.Column(db.Integer, db.ForeignKey('usuario.id'), name='fk_curso_usuario')
     categorias = db.relationship('Categoria', secondary=categorias_curso,
                                  backref=db.backref('cursos', lazy='dynamic'))
-    review = db.relationship('Reseña', backref='curso', lazy=True)
     clases = db.relationship('Clase', backref='curso_relacion', lazy=True, cascade="all, delete-orphan")
     # con esta función me permitirá mostrar los datos en un json
     def serialize(self):
