@@ -288,12 +288,12 @@ def lecciones_curso(id):
     #print(f"Lecciones: {lecciones}")
     return render_template("lecciones.html", curso=curso, lecciones=lecciones)
 
-@app.route("/review", methods=["POST", "GET"])
+@app.route("/nosotros", methods=["POST", "GET"])
 def review():
     if request.method == "POST":
         pass
     else:
-        return render_template("review.html")
+        return render_template("nosotros.html")
     
 #boton en cursos ELIMINAR (vista editar/configuracion de curso)
 @app.route("/Eliminar_curso/<int:id>", methods=["POST", "GET"])
