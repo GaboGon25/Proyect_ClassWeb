@@ -196,11 +196,6 @@ def courses_details():
 @app.route("/categories", methods=["POST", "GET"])
 def categories():    
     return render_template("categories.html")
-
-@app.route("/configuration", methods=["POST", "GET"])
-def configuration():
-    return render_template("configuration.html")   
-    
     
 @app.route("/logout")
 @login_required
@@ -241,6 +236,9 @@ def cart():
     else:
         return render_template("cart.html")
  
-
+@app.route("/configuration", methods=["POST", "GET"])
+def configuration():
+    return render_template("configuration.html")   
+    
 if __name__ == '__main__':
     app.run(debug=True)
