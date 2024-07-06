@@ -5,7 +5,30 @@
 {% endblock %}
 
 {% block content %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Mis Lecciones</h1>
+    <p class="lead">Lecciones del curso que esta llevando</p>
+  </div>
+</div>
+<body>
+  <div class="py-5">
+    <div class="container">
+      <div class="row hidden-md-up">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-block">
+              <h4 class="card-title">Titulo de la leccion</h4>
+              <h6 class="card-subtitle text-muted">Duracion</h6>
+              <p class="card-text p-y-1"> Descripcion</p>
+            </div>
+          </div>
+        </div>
+</body>
+{% endblock %}
 
-<h1>Lecciones</h1>
-
+{% block script %}
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
 {% endblock %}

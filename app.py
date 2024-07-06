@@ -186,12 +186,13 @@ def courses():
     else:
         return render_template("courses.html")
     
-@app.route("/courses_details", methods=["POST", "GET"])
-def courses_details():
-    if request.method == "POST":
-        pass
-    else:
-        return render_template("courses_details.html")
+@app.route("/courses_details/<int:id>")
+@login_required
+def courses_details(id):
+    course_detail = Curso.query.get(id)
+    print(f"c: {course_detail}")
+    return render_template("courses_details.html", curso=course_detail)
+
     
 @app.route("/categories", methods=["POST", "GET"])
 def categories():    
@@ -286,6 +287,13 @@ def lecciones_curso(id):
     
     print(f"Lecciones: {lecciones}")
     return render_template("lecciones.html", lecciones=lecciones)
+
+@app.route("/review", methods=["POST", "GET"])
+def review():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("review.html")
     
 if __name__ == '__main__':
     app.run(debug=True)

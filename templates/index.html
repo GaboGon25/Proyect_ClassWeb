@@ -11,106 +11,59 @@
       <h2 style="color: red">No hay coincidencias</h2>
     {% else %}
       <h1>Cursos Disponibles</h1>
-      {% for curso in cursos %}
-        <div class="container py-5">
-          <div class="row justify-content-center mb-3">
-            <div class="col-md-12 col-xl-10">
-              <div class="card shadow-0 border rounded-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                      <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                        <div class="hover-overlay">
-                          <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-6 col-xl-6">
-                      <h5 class="card-title">{{ curso.title }}</h5>
-                      <div class="d-flex flex-row">
-                        <div class="text-danger mb-1 me-2">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </div>
-                      </div>
-                      <p class="card-text">{{ curso.description }}</p>
-                      {% for categoria in curso.categorias %}
-                        <span class="badge bg-primary">{{ categoria.name }}</span>
-                      {% endfor %}
-
-                      <div class="d-flex flex-row align-items-center mb-1">
-                        <h4 class="mb-1 me-1">{{ curso.price }}</h4>
-                      </div>
-                    </div>
-
-                    <div class="d-flex flex-column mt-4">
-                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-sm" type="button">Detalles</button>
-                      <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary btn-sm mt-2" type="button">Agregar al carrito</button>
-                    </div>
-                  </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for curso in cursos %}
+          <div class="col">
+            <div class="card h-100">
+              <img src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp" class="card-img-top" alt="Imagen del curso" />
+              <div class="card-body">
+                <h5 class="card-title">{{ curso.title }}</h5>
+                <p class="card-text">{{ curso.description }}</p>
+                {% for categoria in curso.categorias %}
+                  <span class="badge bg-primary">{{ categoria.name }}</span>
+                {% endfor %}
+                <div class="d-flex flex-row align-items-center mb-1">
+                  <h4 class="mb-1 me-1">{{ curso.price }}</h4>
                 </div>
+                <a href="{{ url_for('courses_details', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Detalles</a>
+                <button class="btn btn-outline-primary btn-sm mt-2" type="button">Agregar al carrito</button>
               </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     {% endif %}
   {% else %}
     {% if cursos|length == 0 %}
       <h2 style="color: red">No hay coincidencias</h2>
     {% else %}
       <h1>Mis Cursos</h1>
-      {% for curso in cursos %}
-        <div class="container py-5">
-          <div class="row justify-content-center mb-3">
-            <div class="col-md-12 col-xl-10">
-              <div class="card shadow-0 border rounded-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                      <div class="bg-image hover-zoom ripple rounded ripple-surface">
-                        <div class="hover-overlay">
-                          <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-6 col-xl-6">
-                      <h5 class="card-title">{{ curso.title }}</h5>
-                      <div class="d-flex flex-row">
-                        <div class="text-danger mb-1 me-2">
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </div>
-                      </div>
-                      <p class="card-text">{{ curso.description }}</p>
-                      {% for categoria in curso.categorias %}
-                        <span class="badge bg-primary">{{ categoria.name }}</span>
-                      {% endfor %}
-
-                      <div class="d-flex flex-row align-items-center mb-1">
-                        <h4 class="mb-1 me-1">{{ curso.price }}</h4>
-                      </div>
-                    </div>
-                    <div class="container">
-                    <form method="POST" action="/configuration">
-                      <button type="submit">Configurar</button>
-                    </form>
-                    <a href="{{ url_for('crear_lecciones', id=curso.id) }}" class="btn btn-secondary mt-4" role="button">Agregar lecciones</a>
-                    <button type="button" class="btn btn-primary mt-4">Mostrar lecciones</button>
-                  </div>
-                  </div>
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for curso in cursos %}
+          <div class="col">
+            <div class="card h-100">
+              <img src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp" class="card-img-top" alt="Imagen del curso" />
+              <div class="card-body">
+                <h5 class="card-title">{{ curso.title }}</h5>
+                <p class="card-text">{{ curso.description }}</p>
+                {% for categoria in curso.categorias %}
+                  <span class="badge bg-primary">{{ categoria.name }}</span>
+                {% endfor %}
+                <div class="d-flex flex-row align-items-center mb-1">
+                  <h4 class="mb-1 me-1">{{ curso.price }}</h4>
                 </div>
+                <a href="{{ url_for('courses_details', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Detalles</a>
+                <a href="{{ url_for('crear_lecciones', id=curso.id) }}" class="btn btn-secondary btn-sm mt-2" role="button">Agregar lecciones</a>
+                <button type="button" class="btn btn-primary btn-sm mt-2">Mostrar lecciones</button>
+                <form method="POST" action="/configuration">
+                  <button type="submit" class="btn btn-outline-secondary btn-sm mt-2">Configurar</button>
+                </form>
               </div>
             </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     {% endif %}
   {% endif %}
+
 {% endblock %}
