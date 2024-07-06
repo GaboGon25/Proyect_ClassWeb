@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  Crear Leccion
+{% endblock %}
+
+{% block content %}
+
+<form method="post" action="{{ url_for('crear_lecciones', id=curso.id) }}">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+  
+    <!-- Text input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="text" id="form6Example4" class="form-control" name="titulo"/>
+      <label class="form-label" for="form6Example4">Titulo</label>
+    </div>
+  
+    <!-- Number input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <input type="number" id="form6Example6" class="form-control" name="duracion"/>
+      <label class="form-label" for="form6Example6">Duracion</label>
+    </div>
+  
+    <!-- Message input -->
+    <div data-mdb-input-init class="form-outline mb-4">
+      <textarea class="form-control" id="form6Example7" rows="4" name="descripcion"></textarea>
+      <label class="form-label" for="form6Example7">Descripcion</label>
+    </div>
+  
+  
+    <!-- Submit button -->
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Subir leccion</button>
+  </form>
+
+{% endblock %}

@@ -93,7 +93,7 @@ class Clase(db.Model):
     descripcion = db.Column(db.String(80))
     horas = db.Column(db.Float, nullable=False)
     curso_id = db.Column(db.Integer, db.ForeignKey('curso.id'), nullable=False)
-    curso = db.relationship('Curso', backref='clases_relacion')
+    #curso = db.relationship('Curso', backref='clases_relacion')
 
     def __repr__(self):
         return f"Clase: {self.titulo} - {self.horas} horas"

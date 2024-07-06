@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template, redirect, flash, session, jsonify
-from models import Usuario, db, Categoria, categorias_curso, Curso
+from flask import Flask, request, render_template, redirect, flash, session, jsonify, url_for
+from models import Usuario, db, Categoria, categorias_curso, Curso, Clase
 # con eso importamos la password hasheada
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
@@ -238,7 +238,54 @@ def cart():
  
 @app.route("/configuration", methods=["POST", "GET"])
 def configuration():
-    return render_template("configuration.html")   
+    return render_template("configuration.html")  
+
+# crear lecciones
+@app.route("/<int:id>/crear", methods=['POST', 'GET'])
+def crear_lecciones(id):
+    if request.method == "POST":
+        # Agregar clases: titulo, descripcion, duracion, curso_id
+        titulo = request.form.get("titulo")
+        descripcion = request.form.get("descripcion")
+        horas = float(request.form.get("duracion"))
+        curso_id = id
+
+        if not titulo or not descripcion or not horas:
+            flash("Campos vacios", "danger")
+            print("Error")
+            return redirect(url_for("crear_lecciones", id=curso_id))
+        
+        # crear una nueva leccion
+        try:
+            nueva_leccion = Clase(
+                titulo = titulo,
+                descripcion = descripcion,
+                horas = horas,
+                curso_id = curso_id
+            )
+
+            # agregalo
+            db.session.add(nueva_leccion)
+            db.session.commit()
+
+            flash("Leccion agregada", "success")
+            return redirect("/")
+        except Exception as e:
+            db.session.rollback()
+            print(f"El error fue: {e}")
+            flash("Hubo un error", "danger")
+            return redirect("/")
+    else:
+        curso = Curso.query.get(id)
+        print(f"El curso es: {curso}")
+        return render_template("crear_lecciones.html", curso=curso)
+
+@app.route("/<int:id>/lecciones", methods=['GET'])
+def lecciones_curso(id):
+    lecciones = Clase.query.filter_by(curso_id = id).all()
+    
+    print(f"Lecciones: {lecciones}")
+    return render_template("lecciones.html", lecciones=lecciones)
     
 if __name__ == '__main__':
     app.run(debug=True)

@@ -101,6 +101,8 @@
                     <form method="POST" action="/configuration">
                       <button type="submit">Configurar</button>
                     </form>
+                    <a href="{{ url_for('crear_lecciones', id=curso.id) }}" class="btn btn-secondary mt-4" role="button">Agregar lecciones</a>
+                    <button type="button" class="btn btn-primary mt-4">Mostrar lecciones</button>
                   </div>
                   </div>
                 </div>
