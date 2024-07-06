@@ -54,7 +54,7 @@
                 </div>
                 <a href="{{ url_for('courses_details', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Detalles</a>
                 <a href="{{ url_for('crear_lecciones', id=curso.id) }}" class="btn btn-secondary btn-sm mt-2" role="button">Agregar lecciones</a>
-                <button type="button" class="btn btn-primary btn-sm mt-2">Mostrar lecciones</button>
+                <a href="{{ url_for('lecciones_curso', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Mostrar lecciones</a>
                 <form method="POST" action="/configuration">
                   <button type="submit" class="btn btn-outline-secondary btn-sm mt-2">Configurar</button>
                 </form>
