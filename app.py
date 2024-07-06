@@ -284,9 +284,9 @@ def crear_lecciones(id):
 @app.route("/<int:id>/lecciones", methods=['GET'])
 def lecciones_curso(id):
     lecciones = Clase.query.filter_by(curso_id = id).all()
-    
-    print(f"Lecciones: {lecciones}")
-    return render_template("lecciones.html", lecciones=lecciones)
+    curso = Curso.query.get_or_404(id)
+    #print(f"Lecciones: {lecciones}")
+    return render_template("lecciones.html", curso=curso, lecciones=lecciones)
 
 @app.route("/review", methods=["POST", "GET"])
 def review():
