@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import expression
 
 db = SQLAlchemy()
 
@@ -97,3 +98,19 @@ class Clase(db.Model):
 
     def __repr__(self):
         return f"Clase: {self.titulo} - {self.horas} horas"
+
+class Transacciones(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_curso = db.Column(db.Integer, db.ForeignKey('curso.id'))
+    id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    user = db.relationship('Usuario', backref='transaction')
+    curso = db.relationship('Curso', backref='transaction')
+    
+class Carrito(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id_curso = db.Column(db.Integer, db.ForeignKey('curso.id'))
+    id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    user = db.relationship('Usuario', backref='carrito')
+    curso = db.relationship('Curso', backref='carrito')
+    estado = db.Column(db.Boolean, server_default=expression.true(), nullable=False)
+

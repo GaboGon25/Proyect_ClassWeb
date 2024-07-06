@@ -295,5 +295,27 @@ def review():
     else:
         return render_template("review.html")
     
+#boton en cursos ELIMINAR (vista editar/configuracion de curso)
+@app.route("/Eliminar_curso/<int:id>", methods=["POST", "GET"])
+def delete_course(id):
+    curso = Curso.query.get_or_404(id)
+    
+    if request.method == "POST":
+        try:
+            db.session.delete(curso)
+            db.session.commit()
+            flash("Curso eliminado exitosamente", "success")
+            return redirect('/')
+        except Exception as e:
+            db.session.rollback()
+            flash("Hubo un error al eliminar el curso", "danger")
+            print('erro', e)
+            return redirect(url_for('index'))  # or render_template as needed
+        
+    
+    # Handling GET request to show confirmation or details
+    return render_template("index.html", curso=curso)
+
+    
 if __name__ == '__main__':
     app.run(debug=True)

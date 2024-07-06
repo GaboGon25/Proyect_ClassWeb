@@ -53,8 +53,11 @@
                   <h4 class="mb-1 me-1">{{ curso.price }}</h4>
                 </div>
                 <a href="{{ url_for('courses_details', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Detalles</a>
+                <form method="POST" action="{{ url_for('delete_course', id=curso.id) }}">
+                  <button type="submit" class="btn btn-secondary btn-sm mt-2">Eliminar curso</button>
+              </form>
                 <a href="{{ url_for('crear_lecciones', id=curso.id) }}" class="btn btn-secondary btn-sm mt-2" role="button">Agregar lecciones</a>
-                <a href="{{ url_for('lecciones_curso', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Mostrar lecciones</a>
+                <a href="{{ url_for('lecciones_curso', id=curso.id) }}" class="btn btn-secondary btn-sm mt-2" role="button">Ver lecciones</a>
                 <form method="POST" action="/configuration">
                   <button type="submit" class="btn btn-outline-secondary btn-sm mt-2">Configurar</button>
                 </form>
