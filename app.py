@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, flash, session, jsonify, url_for
-from models import Carrito, Usuario, db, Categoria, categorias_curso, Curso, Clase
+from models import Carrito, Usuario, db, Categoria, categorias_curso, Curso, Clase, Transacciones
 # con eso importamos la password hasheada
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
@@ -35,9 +35,13 @@ def index():
     if current_user.rol == 'tutor':
         cursos = Curso.query.filter_by(id_profesor=current_user.id).all()
     else:
-        cursos = Curso.query.all()
+        # Exclude purchased courses for students
+        purchased_course_ids = [transaccion.id_curso for transaccion in Transacciones.query.filter_by(id_user=current_user.id, purchased=True).all()]
+        cursos = Curso.query.filter(Curso.id.notin_(purchased_course_ids)).all()
+
     cursos_data = [curso.serialize() for curso in cursos]
     return render_template("index.html", cursos=cursos_data)
+
 
 
 @app.route("/login", methods=["POST", "GET"])
@@ -321,6 +325,7 @@ def delete_course(id):
 def add_to_cart(curso_id):
     curso = Curso.query.get(curso_id)
     if not curso:
+        print("no encontrado")
         flash('Curso no encontrado', 'error')
         return redirect(url_for('courses'))
 
@@ -373,13 +378,24 @@ def checkout():
     # Proceder con la compra si la tarjeta es válida
     user_id = current_user.id
     carrito_items = Carrito.query.filter_by(id_user=user_id, estado=True).all()
+    
     for item in carrito_items:
         item.estado = False  # Actualizar el estado a False para indicar que ha sido comprado
         db.session.add(item)
+
+        # Crear una entrada en la tabla de transacciones
+        nueva_transaccion = Transacciones(
+            id_curso=item.id_curso,
+            id_user=user_id,
+            purchased=True
+        )
+        db.session.add(nueva_transaccion)
+        
     db.session.commit()
 
     flash('Compra realizada con éxito.', 'success')
     return redirect(url_for('purchased_courses'))
+
 
 @app.route('/purchased_courses')
 @login_required
@@ -391,4 +407,4 @@ def purchased_courses():
 
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True) 

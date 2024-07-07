@@ -103,8 +103,10 @@ class Transacciones(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_curso = db.Column(db.Integer, db.ForeignKey('curso.id'))
     id_user = db.Column(db.Integer, db.ForeignKey('usuario.id'))
+    purchased = db.Column(db.Boolean, default=False)
     user = db.relationship('Usuario', backref='transaction')
     curso = db.relationship('Curso', backref='transaction')
+
     
 class Carrito(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -113,4 +115,3 @@ class Carrito(db.Model):
     user = db.relationship('Usuario', backref='carrito')
     curso = db.relationship('Curso', backref='carrito')
     estado = db.Column(db.Boolean, server_default=expression.true(), nullable=False)
-

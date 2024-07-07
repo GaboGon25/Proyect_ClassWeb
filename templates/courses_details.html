@@ -23,10 +23,9 @@
                     </p>
                     <div class="d-flex" bis_skin_checked="1">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
-                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
+                        <form method="POST" action="{{ url_for('add_to_cart', curso_id=curso.id) }}">
+                            <button class="btn btn-outline-primary btn-sm mt-2" type="submit">Agregar al carrito</button>
+                          </form>
                     </div>
                 </div>
             </div>
