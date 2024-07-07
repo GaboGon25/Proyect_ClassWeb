@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-
   {% if current_user.rol == 'estudiante' %}
     {% if cursos|length == 0 %}
       <h2 style="color: red">No hay coincidencias</h2>
@@ -26,7 +25,9 @@
                   <h4 class="mb-1 me-1">{{ curso.price }}</h4>
                 </div>
                 <a href="{{ url_for('courses_details', id=curso.id) }}" class="btn btn-primary btn-sm mt-2" role="button">Detalles</a>
-                <button class="btn btn-outline-primary btn-sm mt-2" type="button">Agregar al carrito</button>
+                <form method="POST" action="{{ url_for('add_to_cart', curso_id=curso.id) }}">
+                  <button class="btn btn-outline-primary btn-sm mt-2" type="submit">Agregar al carrito</button>
+                </form>
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, flash, session, jsonify, url_for
-from models import Usuario, db, Categoria, categorias_curso, Curso, Clase
+from models import Carrito, Usuario, db, Categoria, categorias_curso, Curso, Clase
 # con eso importamos la password hasheada
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import Config
@@ -230,12 +230,12 @@ def validate_card():
         return jsonify(result)
     return render_template('validate_card.html')
 
-@app.route("/cart", methods=["POST", "GET"])
-def cart():
-    if request.method == "POST":
-        pass
-    else:
-        return render_template("cart.html")
+#@app.route("/cart", methods=["POST", "GET"])
+#def cart():
+#    if request.method == "POST":
+#        pass
+#    else:
+#        return render_template("cart.html")
  
 @app.route("/configuration", methods=["POST", "GET"])
 def configuration():
@@ -315,6 +315,79 @@ def delete_course(id):
     
     # Handling GET request to show confirmation or details
     return render_template("index.html", curso=curso)
+
+@app.route('/add_to_cart/<int:curso_id>', methods=['POST'])
+@login_required
+def add_to_cart(curso_id):
+    curso = Curso.query.get(curso_id)
+    if not curso:
+        flash('Curso no encontrado', 'error')
+        return redirect(url_for('courses'))
+
+    # Verificar si el curso ya está en el carrito
+    existing_item = Carrito.query.filter_by(id_curso=curso_id, id_user=current_user.id, estado=True).first()
+    if existing_item:
+        flash('Este curso ya está en tu carrito', 'info')
+        return redirect(url_for('courses'))
+
+    # Agregar curso al carrito
+    carrito_item = Carrito(id_curso=curso_id, id_user=current_user.id)
+    db.session.add(carrito_item)
+    db.session.commit()
+    flash('Curso agregado al carrito', 'success')
+    return redirect(url_for('cart'))
+
+
+@app.route('/cart')
+@login_required
+def cart():
+    carrito_items = Carrito.query.filter_by(id_user=current_user.id, estado=True).all()
+    return render_template('cart.html', carrito_items=carrito_items)
+
+
+@app.route('/remove_from_cart/<int:carrito_id>', methods=['POST'])
+@login_required
+def remove_from_cart(carrito_id):
+    carrito_item = Carrito.query.get(carrito_id)
+    if carrito_item and carrito_item.id_user == current_user.id:
+        carrito_item.estado = False
+        db.session.commit()
+        flash('Curso eliminado del carrito', 'success')
+    else:
+        flash('Error al eliminar el curso del carrito', 'error')
+    return redirect(url_for('cart'))
+
+@app.route('/checkout', methods=['POST'])
+@login_required
+def checkout():
+    card_number = request.form.get('card_number')
+
+    # Verifica nuevamente la tarjeta con la API
+    response = requests.post('/validate_card', json={'card_number': card_number})
+    data = response.json()
+
+    if not data['success'] or not data['BIN']['valid']:
+        flash('La tarjeta no es válida. No se puede proceder con la compra.', 'danger')
+        return redirect(url_for('cart'))
+
+    # Proceder con la compra si la tarjeta es válida
+    user_id = current_user.id
+    carrito_items = Carrito.query.filter_by(id_user=user_id, estado=True).all()
+    for item in carrito_items:
+        item.estado = False  # Actualizar el estado a False para indicar que ha sido comprado
+        db.session.add(item)
+    db.session.commit()
+
+    flash('Compra realizada con éxito.', 'success')
+    return redirect(url_for('purchased_courses'))
+
+@app.route('/purchased_courses')
+@login_required
+def purchased_courses():
+    user_id = current_user.id
+    purchased_items = Carrito.query.filter_by(id_user=user_id, estado=False).all()  # estado=False indica que el curso ha sido comprado
+    return render_template('purchased_courses.html', purchased_items=purchased_items)
+
 
     
 if __name__ == '__main__':
