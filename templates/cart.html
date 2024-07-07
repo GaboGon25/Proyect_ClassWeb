@@ -55,15 +55,33 @@
                     <label for="card_number">Número de tarjeta:</label>
                     <input type="text" class="form-control" id="card_number" name="card_number" required>
                   </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-5">
+                      <div data-mdb-input-init class="form-outline">
+                      <label class="form-label" for="typeExp">Expiracion</label>
+                     
+                      <input type="text" id="typeExp" name="expiration" class="form-control form-control-lg" pattern="\d{2}/\d{2}" placeholder="MM/AA" required>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mb-5">
+                    <label class="form-label" for="typeText">Cvv</label>
+                    <div data-mdb-input-init class="form-outline">
+                      <input type="password" id="typeText" class="form-control form-control-lg"
+                        value="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                    </div>
+                  </div>
+
                   <div id="results"></div>
                   <button class="btn btn-success mt-3" type="submit">Comprar</button>
                 </form>
 
-                <h5 class="fw-bold mb-5" style="position: absolute; bottom: 0;">
-                  <a href="{{ url_for('courses') }}"><i class="fas fa-angle-left me-2"></i>Regresar a Comprar</a>
-                </h5>
-
+                
               </div>
+              <h5 class="fw-bold mb-5" style="position: absolute; bottom: 0;">
+                <a href="{{ url_for('courses') }}"><i class="fas fa-angle-left me-2"></i>Regresar a Comprar</a>
+            </h5>
             </div>
 
           </div>
