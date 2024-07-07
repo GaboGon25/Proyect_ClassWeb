@@ -11,3 +11,53 @@
   .navbar-dark .navbar-nav .nav-link:focus {
     color: rgba(255, 255, 255, 0.75);
   }
+
+  /* static/styles.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.card-img-top {
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-img-top:hover {
+  transform: scale(1.1);
+}
+
+.display-5 {
+  color: #333;
+  transition: color 0.3s ease-in-out;
+}
+
+.display-5:hover {
+  color: #007bff;
+}
+
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.lead {
+  font-size: 1.25rem;
+  color: #555;
+}
+
+.fs-5 {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.text-decoration-line-through {
+  color: #dc3545;
+  margin-right: 10px;
+}

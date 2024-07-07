@@ -368,7 +368,7 @@ def checkout():
     card_number = request.form.get('card_number')
 
     # Verifica nuevamente la tarjeta con la API
-    response = requests.post('/validate_card', json={'card_number': card_number})
+    response = requests.post('http://127.0.0.1:5000/validate_card', json={'card_number': card_number})
     data = response.json()
 
     if not data['success'] or not data['BIN']['valid']:
@@ -395,6 +395,7 @@ def checkout():
 
     flash('Compra realizada con éxito.', 'success')
     return redirect(url_for('purchased_courses'))
+
 
 
 @app.route('/purchased_courses')
